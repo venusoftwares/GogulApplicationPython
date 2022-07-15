@@ -36,7 +36,9 @@ CREATE TABLE IF NOT EXISTS public.user_flask
 
 
 
+#INNER JOINS IN POSTGRESQL
 
+("SELECT students.id, fname, lname, email, father, mother, mobile FROM students INNER JOIN details ON students.id = details.id")
 
 #SQL Scripts for Usage
 
@@ -54,3 +56,4 @@ CREATE TABLE IF NOT EXISTS public.user_flask
 ('SELECT * FROM students WHERE id = %s', (id))
 ("UPDATE students SET fname = %s,lname = %s,email = %s WHERE id = %s", (fname, lname, email, id))
 ('DELETE FROM students WHERE id = {0}'.format(id))
+("SELECT students.id, fname, lname, email, father, mother, mobile FROM students INNER JOIN details ON students.id = details.id")
