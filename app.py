@@ -40,7 +40,12 @@ def index():
 # About
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    g = "SELECT students.id, fname, lname, email, father, mother, mobile FROM students INNER JOIN details ON students.id = details.id"
+    ####SELECT * FROM students FULL OUTER JOIN details ON students.id = details.id
+    cur.execute(g) # Execute the SQL
+    lusers = cur.fetchall()
+    return render_template('about.html',lusers = lusers)
  
 # Articles
 @app.route('/articles')
@@ -154,9 +159,6 @@ def dashboard():
     # Create cursor
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
   
-    # Get articles
-    #result = cur.execute("SELECT * FROM articles")
-    # Show articles only from the user logged in 
     result = cur.execute("SELECT * FROM articles WHERE author = %s", [session['username']])
   
     articles = cur.fetchall()

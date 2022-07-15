@@ -1,0 +1,56 @@
+#Create SQL Script for Articles
+
+CREATE TABLE IF NOT EXISTS public.articles
+(
+    id integer NOT NULL DEFAULT nextval('articles_id_seq'::regclass),
+    title character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    body text COLLATE pg_catalog."default" NOT NULL,
+    create_date date NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    author character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    created_at date DEFAULT now(),
+    CONSTRAINT articles_pkey PRIMARY KEY (id)
+)
+
+#Create SQL Script for Students
+
+CREATE TABLE IF NOT EXISTS public.students
+(
+    id integer NOT NULL DEFAULT nextval('students_id_seq'::regclass),
+    fname character varying(40) COLLATE pg_catalog."default" NOT NULL,
+    lname character varying(40) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(40) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT students_pkey PRIMARY KEY (id)
+)
+
+#Create SQL Script for Users
+
+CREATE TABLE IF NOT EXISTS public.user_flask
+(
+    id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
+    name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(150) COLLATE pg_catalog."default" NOT NULL,
+    username character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT user_flask_pkey PRIMARY KEY (id)
+)
+
+
+
+
+
+#SQL Scripts for Usage
+
+("SELECT * FROM articles")
+("SELECT * FROM articles WHERE id = %s", [id])
+("INSERT INTO user_flask(name, email, username, password) VALUES(%s, %s, %s, %s)", (name, email, username, password))
+("SELECT * FROM user_flask WHERE username = %s", [username])
+("SELECT * FROM articles WHERE author = %s", [session['username']])
+("INSERT INTO articles(title, body, author) VALUES(%s, %s, %s)",(title, body, session['username']))
+("SELECT * FROM articles WHERE id = %s", [id])
+("UPDATE articles SET title=%s, body=%s WHERE id=%s",(title, body, id))
+("DELETE FROM articles WHERE id = %s", [id])
+("SELECT * FROM students")
+("INSERT INTO students (fname, lname, email) VALUES ('"+fname+"', '"+lname+"', '"+email+"')", )
+('SELECT * FROM students WHERE id = %s', (id))
+("UPDATE students SET fname = %s,lname = %s,email = %s WHERE id = %s", (fname, lname, email, id))
+('DELETE FROM students WHERE id = {0}'.format(id))
