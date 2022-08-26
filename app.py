@@ -36,17 +36,8 @@ class ArticleForm(Form):
 @app.route('/')
 def index():
     return render_template('home.html')
-  
-# About
-@app.route('/about')
-def about():
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    g = "SELECT students.id, fname, lname, email, father, mother, mobile FROM students INNER JOIN details ON students.id = details.id"
-    ####SELECT * FROM students FULL OUTER JOIN details ON students.id = details.id
-    cur.execute(g) # Execute the SQL
-    lusers = cur.fetchall()
-    return render_template('about.html',lusers = lusers)
  
+
 # Articles
 @app.route('/articles')
 def articles():
@@ -171,6 +162,18 @@ def dashboard():
     # Close connection
     cur.close()
  
+ # About
+@app.route('/about')
+@is_logged_in
+def about():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    g = "SELECT students.id, fname, lname, email, father, mother, mobile FROM students INNER JOIN details ON students.id = details.id"
+    ####SELECT * FROM students FULL OUTER JOIN details ON students.id = details.id
+    cur.execute(g) # Execute the SQL
+    lusers = cur.fetchall()
+    return render_template('about.html',lusers = lusers)
+
+
 # Add Article
 @app.route('/add_article', methods=['GET', 'POST'])
 @is_logged_in
